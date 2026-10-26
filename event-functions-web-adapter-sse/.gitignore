@@ -1,0 +1,5 @@
+# AWS SAM のビルド成果物（sam build で再生成される）
+.aws-sam/
+
+# Node 依存関係
+node_modules/

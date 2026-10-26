@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Sample that delivers SSE using Event Functions (classic Lambda) + Lambda Web Adapter.
+  Exposes a Function URL in response_stream mode and streams Server-Sent Events to the browser.
+
+Globals:
+  Function:
+    # 呼び出しタイムアウト(秒)。SSE の長い接続を保つため 300 に延長。
+    # Lambda の最大は 900 秒。
+    Timeout: 300
+    MemorySize: 512
+
+Resources:
+  SseWebAdapterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event-fn-web-adapter-sse
+      CodeUri: app/
+      # Web Adapter のラッパーが /opt/bootstrap として先に起動し、
+      # ハンドラー(= run.sh)経由で実アプリ(node index.js)を立ち上げる。
+      Handler: run.sh
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      Layers:
+        # Lambda Web Adapter レイヤー(x86_64)。arm64 を使う場合は
+        # LambdaAdapterLayerArm64 に差し替え、Architectures も arm64 にする。
+        - !Sub arn:aws:lambda:${AWS::Region}:753240598075:layer:LambdaAdapterLayerX86:30
+      Environment:
+        Variables:
+          # アダプターのラッパーを有効化する(これが Web Adapter 利用の肝)。
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/bootstrap
+          # SSE/ストリーミングには response_stream モードが必須。
+          AWS_LWA_INVOKE_MODE: response_stream
+          # アプリが listen するポート(index.js がこれを読む)。
+          AWS_LWA_PORT: "8080"
+          PORT: "8080"
+      FunctionUrlConfig:
+        AuthType: NONE
+        # Function URL 側もレスポンスストリーミングを有効化する。
+        InvokeMode: RESPONSE_STREAM
+
+Outputs:
+  FunctionUrl:
+    Description: Function URL for the SSE demo (open in a browser / hit /events with curl)
+    Value: !GetAtt SseWebAdapterFunctionUrl.FunctionUrl
+  FunctionName:
+    Description: Name of the created Lambda function
+    Value: !Ref SseWebAdapterFunction

@@ -1,0 +1,15 @@
+{
+  "name": "event-functions-web-adapter-sse",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "従来型 Lambda(Event Functions) + Lambda Web Adapter で SSE を動かすサンプル",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

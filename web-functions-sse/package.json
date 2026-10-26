@@ -1,0 +1,15 @@
+{
+  "name": "web-functions-sse",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AWS Lambda Web Functions で SSE による同時リクエスト処理を確認するサンプル",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
