@@ -5,7 +5,7 @@ AWS **Lambda Web Functions** と **Event Functions（+ [Lambda Web Adapter](http
 「1 つの実行環境が複数リクエストを同時にさばけるか」を、同時接続を観測しながら見比べられます。
 
 > このリポジトリは、以下の記事で使用したサンプルコード一式です。
-> 記事: [Lambda Web Functions を触ってみる（Qiita）](https://qiita.com/H0ukiStar)
+> 記事: [Lambda Web Functions を触ってみた 〜SSE で「1 環境が複数リクエストをさばく」様子を Event Functions と比べる〜（Qiita）](https://qiita.com/h0uk1st4r/items/88afb72b7b5d0ebe52ff)
 
 ## 何を確認できるか
 
